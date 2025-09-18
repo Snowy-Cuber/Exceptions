@@ -9,18 +9,21 @@ using namespace std;
 
 char character(char, int);
 
+class invalidCharacterExcpeption {};
+class invalidRangeExcpeption {};
+
 int main() {
 
 	try {
 
-		cout << character('a', 1);
+		cout << character('A', 31);
 
 	}
-	catch () {
-
+	catch (invalidCharacterExcpeption) {
+		cout << "Sorry that is an invaild character.";
 	}
-	catch (){
-
+	catch (invalidRangeExcpeption){
+		cout << "Sorry that is an invaild range.";
 	}
 
 
@@ -36,17 +39,16 @@ char character(char start, int offset) {
 	char newCharacter = start;
 
 	if (!isalpha(start)) {
-		throw;
+		throw invalidCharacterExcpeption();
 	}
-
-	if (offset < 1 || offset >= 32) {
-		throw;
-	}
-
 	newCharacter += offset;
 
 	if (!isalpha(newCharacter)) {
-		throw;
+		throw invalidRangeExcpeption();
+	}
+
+	if ((isupper(start) && islower(newCharacter)) || (islower(start) && isupper(newCharacter))) {
+		throw invalidRangeExcpeption();
 	}
 
 	return newCharacter;
